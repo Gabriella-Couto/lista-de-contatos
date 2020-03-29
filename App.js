@@ -1,116 +1,79 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import ContatoAdd from './components/AdicionarContato';
+import ContatoItem from './components/ContatoItem';
 
-export default class App extends React.Component{
-  
-  constructor (props){
-    super (props);
-      this.state = {
-      contato: [],
-      showAdd: false,
-      fone: '',
-      nome: ''
-    }
+export default function App() {
+  const [contato, setContato] = useState ([]);
+  const [modoAdd, setModoAdd] = useState(false);
+
+  function handleBack(){
+    setModoAdd(false);
   }
 
-  handleBack(){
-    this.setState({
-      fone: '',
-      nome: '',
-      showAdd: false
+  const handleSaveClick = (nome, fone) => {
+    let id = calculateIndex();
+    //Add the current contact in the end of the array
+    setContato(contato => {
+      return [...contato, {id: id, nome: nome, fone: fone}];
     })
   }
 
-  handleAddClick(){
-    this.setState({
-      showAdd: true
-    })
+  function handleAddClick(){
+    setModoAdd(true);
   }
 
-  handleSaveClick(){
-    let nome = this.state.nome;
-    let fone = this.state.fone;
-    let id = this.calculateIndex();
-
-    console.log('id', id)
-
-    this.setState({ 
-      contato: [...this.state.contato, {name: nome, fone: fone, id: id}],
-      fone: '',
-      nome: ''
-    })
-
-  }
-
-  handleFoneChange(e){
-    let fone = e.target.value;
-
-    this.setState({
-      fone: fone
-    })
-  }
-
-  handleNameChange(e){
-    let name = e.target.value;
-   
-    this.setState({
-      nome: name
-    })
-  }
-
-  calculateIndex(){
-    if(this.state.contato.length == 0 ){
-      return 10
+  function calculateIndex(){
+    if(contato.length == 0 ){
+      return 10;
     } else{
-      let ultimoContato = this.state.contato[this.state.contato.length -1];
+      let ultimoContato = contato[contato.length - 1];
       return ultimoContato.id + 2;
     }
   }
 
-  
-  render(){
-    const index = 10;
-
-    return (
-      <View style={styles.container}>
-        {this.state.showAdd == true?
-            <View> 
-              <TextInput placeholder="Nome" value={this.state.nome} onChangeText={(nome) => this.setState({nome})}/>
-              <TextInput placeholder="Telefone" value={this.state.fone} onChangeText={(fone) => this.setState({fone})}/>
-              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}> 
-                <Button title="Salvar" onPress={() => this.handleSaveClick()} color="#6ac47b"/>
-                <Button title="Voltar" onPress={() => this.handleBack()} color="#8c8f91"/>
-              </View>
-            </View>
-            :
-            <View>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Lista de contatos</Text>
-              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={{display: 'flex'}}>Nome</Text>
-                <Text style={{display: 'flex'}}>Telefone</Text>
-              </View>
-              { this.state.contato && this.state.contato.length > 0? 
-                
-                    <FlatList
-                      data={this.state.contato}
-                      renderItem={contato => (
-                        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                          <Text>{contato.item.name}</Text>
-                          <Text>{contato.item.fone}</Text>
-                        </View>
-                      )}
-                      keyExtractor={(item) => item.id.toString()}
-                    />
-                :
-                null
-
-              }
-              <Button title="Adicionar contato" onPress={() => this.handleAddClick()} style={{ marginBottom: 25}}/>
-            </View>
-        }
-      </View>
-    );
+  const removerContato = (key) => {
+    //Returns all array elements that are not the one i want to delete 
+    //And then changes the value of the array
+    let filteredContato = contato.filter((c) => {return c.id != key });
+    setContato(filteredContato);
   }
+
+  return (
+    <View style={styles.container}>
+      {modoAdd == true?
+          <View> 
+              <ContatoAdd handleSaveClick={handleSaveClick} handleBack={handleBack}/>
+          </View>
+          :
+          <View>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Lista de contatos</Text>
+            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.tableHeader}>Nome</Text>
+              <Text style={styles.tableHeader}>Telefone</Text>
+            </View>
+            {contato && contato.length > 0? 
+              <FlatList
+                data={contato}
+                renderItem={
+                contato => (
+                <ContatoItem
+                  chave={contato.item.id}
+                  nome={contato.item.nome}
+                  fone={contato.item.fone}
+                  onDelete={removerContato}
+                />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+              />
+              :
+              null
+            }
+            <Button title="Adicionar contato" onPress={handleAddClick} style={styles.buttonCreate}/>
+          </View>
+      }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -120,4 +83,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tableHeader: {
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  buttonCreate: {
+    padding: '40px',
+  }
 });
