@@ -11,5 +11,6 @@ export default {
    opacity: 0.32,
    elevation: 4,
    padding12: 12,
-   borderRadius: 8
+   borderRadius: 8,
+   flex1: 1
 }
