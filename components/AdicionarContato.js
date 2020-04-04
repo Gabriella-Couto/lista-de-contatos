@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {View, TextInput, Button, StyleSheet} from 'react-native';
+import Cores from '../Cores/Cores';
+import Medidas from '../Medidas/Medidas';
 
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
@@ -19,18 +21,13 @@ const AdicionarContato = (props) => {
         setNome('');
     }
 
-    const clean = () => {
-        setFone('');
-        setNome('');
-    }
-
     return (
         <View> 
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
-            <TextInput placeholder="Telefone" value={fone} onChangeText={mudouFone}/>
+            <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
-                <Button title="Salvar" onPress={limpaEnvia} color="#6ac47b"/>
-                <Button title="Voltar" onPress={() => props.handleBack()} color="#8c8f91"/>
+                <Button title="Salvar" onPress={limpaEnvia} color={Cores.green}/>
+                <Button title="Voltar" onPress={() => props.handleBack()} color={Cores.gray}/>
             </View>
         </View>
     );
@@ -42,6 +39,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row', 
         justifyContent: 'space-around'
+    },
+    component: {
+       backgroundColor: Cores.background 
+    },
+    input:{
+        marginBottom: Medidas.margin15
     }
 });
 
