@@ -3,9 +3,9 @@ import {View, TextInput, Button, StyleSheet} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
 
-const AdicionarContato = (props) => {
-    const [nome, setNome] = useState ('');
-    const [fone, setFone] = useState('');
+const EditarContato = (props) => {
+    const [nome, setNome] = useState (props.nome);
+    const [fone, setFone] = useState(props.fone);
 
     const mudouNome = (nome) => {
         setNome (nome);
@@ -27,7 +27,7 @@ const AdicionarContato = (props) => {
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
                 <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
-                <Button title="Voltar" onPress={() => props.handleBack()} color={Cores.gray}/>
+                <Button title="Página inicial" onPress={() => props.handleBack()} color={Cores.gray}/>
             </View>
         </View>
     );
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
 
 
 
-export default AdicionarContato;
+export default EditarContato;
