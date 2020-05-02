@@ -7,6 +7,7 @@ import Medidas from './Medidas/Medidas';
 import { ExibirContato } from './components/ExibirContato';
 import 'react-native-gesture-handler';
 import EditarContato from  './components/EditarContato';
+import { Navigation } from './Navigation/Navigation';
 
 export default function App(props) {
   const [contato, setContato] = useState ([]);

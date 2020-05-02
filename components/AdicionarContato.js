@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
+import {View, TextInput, Button, StyleSheet, Platform} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
+import BotaoCabecalho from '../components/BotaoNavegacao';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
@@ -48,6 +50,18 @@ const styles = StyleSheet.create({
     }
 });
 
-
+AdicionarContato.navigationOptions = dadosNav => {
+    return {
+    headerTitle: "Home",
+    headerRight:
+    <HeaderButtons
+    HeaderButtonComponent={BotaoCabecalho}>
+    <Item
+    title="Adicionar"
+    iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+    onPress={() => { dadosNav.navigation.navigate("Home") }} />
+    </HeaderButtons>
+    }
+}
 
 export default AdicionarContato;
