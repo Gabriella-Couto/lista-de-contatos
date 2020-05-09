@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import {View, TextInput, Button, StyleSheet} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
+import { withNavigation } from 'react-navigation';
 
-const EditarContato = (props) => {
+const EditarContato = ({navigation, props}) => {
     const [nome, setNome] = useState (props.nome);
     const [fone, setFone] = useState(props.fone);
 
@@ -50,4 +51,4 @@ const styles = StyleSheet.create({
 
 
 
-export default EditarContato;
+export default withNavigation(EditarContato);

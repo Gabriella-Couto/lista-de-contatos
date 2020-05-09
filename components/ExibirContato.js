@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import { Cartao } from './Cartao';
 import Medidas from '../Medidas/Medidas';
 import Cores from '../Cores/Cores';
+import { withNavigation } from 'react-navigation';
 
-export const ExibirContato = (props) => {
+const ExibirContato = ({navigation, props}) => {
    
     return(
         <View>
@@ -15,13 +16,13 @@ export const ExibirContato = (props) => {
             </View>
             <View >
                 <Cartao style={styles.displayFlex}>
-                    <Text>{props.id}</Text>
+                    <Text>{props.chave}</Text>
                     <Text>{props.nome}</Text>
                     <Text>{props.fone}</Text>
                 </Cartao>
             </View>
             <View style={styles.buttons}> 
-                <Button title="Voltar" onPress={() => props.handleBack()} color={Cores.gray}></Button>
+                <Button title="Voltar" onPress={() => navigation.navigation('Home')} color={Cores.gray}></Button>
                 <Button title="Editar contato" onPress={() => props.handleEdit()} color={Cores.primary}/>
             </View>
         </View>
@@ -54,3 +55,20 @@ const styles = StyleSheet.create ({
         justifyContent: 'space-around'
     }
 });
+
+
+ExibirContato.navigationOptions = dadosNav => {
+    return {
+    headerTitle: "Exibir o contato",
+    headerRight:
+    <HeaderButtons
+    HeaderButtonComponent={BotaoNavegacao}>
+    <Item
+        title="Exibir"
+        iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+        onPress={() => { dadosNav.navigation.navigate("Exibir") }} />
+    </HeaderButtons>
+    }
+}
+
+export default withNavigation(ExibirContato);

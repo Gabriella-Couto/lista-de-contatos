@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import {View, TextInput, Button, StyleSheet, Platform} from 'react-native';
+import {View, TextInput, Button, StyleSheet, Platform } from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
-import BotaoCabecalho from '../components/BotaoNavegacao';
+import BotaoNavegacao from '../components/BotaoNavegacao';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { withNavigation } from 'react-navigation';
 
-const AdicionarContato = (props) => {
+const AdicionarContato = ({navigation, props}) => {
     const [nome, setNome] = useState ('');
     const [fone, setFone] = useState('');
 
@@ -28,8 +29,8 @@ const AdicionarContato = (props) => {
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
-                <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
-                <Button title="Voltar" onPress={() => props.handleBack()} color={Cores.gray}/>
+                <Button title="Salvar" onPress={() => limpaEnvia} color={Cores.primary}/>
+                <Button title="Voltar" onPress={() => navigation.goBack()} color={Cores.gray}/>
             </View>
         </View>
     );
@@ -52,16 +53,16 @@ const styles = StyleSheet.create({
 
 AdicionarContato.navigationOptions = dadosNav => {
     return {
-    headerTitle: "Home",
+    headerTitle: "Adicionar",
     headerRight:
     <HeaderButtons
-    HeaderButtonComponent={BotaoCabecalho}>
+    HeaderButtonComponent={BotaoNavegacao}>
     <Item
-    title="Adicionar"
-    iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-    onPress={() => { dadosNav.navigation.navigate("Home") }} />
+        title="Adicionar"
+        iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+        onPress={() => { dadosNav.navigation.navigate("Adicionar") }} />
     </HeaderButtons>
     }
 }
 
-export default AdicionarContato;
+export default withNavigation(AdicionarContato);
