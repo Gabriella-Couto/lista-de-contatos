@@ -6,7 +6,7 @@ import BotaoNavegacao from '../components/BotaoNavegacao';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { withNavigation } from 'react-navigation';
 
-const AdicionarContato = ({navigation, props}) => {
+const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
     const [fone, setFone] = useState('');
 
@@ -19,7 +19,7 @@ const AdicionarContato = ({navigation, props}) => {
     }
 
     function limpaEnvia(){
-        props.handleSaveClick(nome, fone);
+        props.salvar(nome, fone);
         setFone('');
         setNome('');
     }
@@ -29,8 +29,8 @@ const AdicionarContato = ({navigation, props}) => {
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
-                <Button title="Salvar" onPress={() => limpaEnvia} color={Cores.primary}/>
-                <Button title="Voltar" onPress={() => navigation.goBack()} color={Cores.gray}/>
+                <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
+                <Button title="Voltar" onPress={() => props.voltar()} color={Cores.gray}/>
             </View>
         </View>
     );

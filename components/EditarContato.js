@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
+import {View, TextInput, Button, StyleSheet, Platform} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
 import { withNavigation } from 'react-navigation';
+import BotaoNavegacao from '../components/BotaoNavegacao';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-const EditarContato = ({navigation, props}) => {
+const EditarContato = (props) => {
     const [nome, setNome] = useState (props.nome);
     const [fone, setFone] = useState(props.fone);
 
@@ -49,6 +51,20 @@ const styles = StyleSheet.create({
     }
 });
 
+
+EditarContato.navigationOptions = dadosNav => {
+    return {
+    headerTitle: "Editar o contato",
+    headerRight:
+    <HeaderButtons
+    HeaderButtonComponent={BotaoNavegacao}>
+    <Item
+        title="Editar"
+        iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+        onPress={() => { dadosNav.navigation.navigate("Editar") }} />
+    </HeaderButtons>
+    }
+}
 
 
 export default withNavigation(EditarContato);

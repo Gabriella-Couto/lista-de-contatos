@@ -71,6 +71,7 @@ const Home = ({navigation}) => {
     setContatoSelecionado(filteredContato[0]);
     setModoView(true);
     setModoAdd(false);
+    setModoEdit(false);
   }
 
   const handleEditClick = () => {
@@ -105,16 +106,16 @@ const Home = ({navigation}) => {
             :
             null
           }
-          <Button title="Adicionar contato" color={Cores.primary} onPress={() => {handleAddClick}} />
+          <Button title="Adicionar contato" color={Cores.primary} onPress={() => {handleAddClick()}} />
       </View>
       }
-      {modoAdd &&
-        <ContatoAdd handleSaveClick={handleSaveClick} handleBack={handleBack}/>
+      {modoAdd == true &&
+        <ContatoAdd salvar={handleSaveClick} voltar={handleBack}/>
       }
-      {modoView &&
+      {modoView ==true&&
           <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} handleBack={handleBack} handleEdit={handleEditClick}/>
       }
-      {modoEdit &&
+      {modoEdit == true &&
         <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} handleBack={handleBack} handleSaveClick={handleSaveEdit} />
       }
     </View>
@@ -150,4 +151,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(Home)
+export default withNavigation(Home);

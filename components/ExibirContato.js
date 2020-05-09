@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
+import { StyleSheet, Text, View, Platform Button} from 'react-native';
 import { Cartao } from './Cartao';
 import Medidas from '../Medidas/Medidas';
 import Cores from '../Cores/Cores';
 import { withNavigation } from 'react-navigation';
+import BotaoNavegacao from './BotaoNavegacao';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-const ExibirContato = ({navigation, props}) => {
+const ExibirContato = (props) => {
    
     return(
         <View>

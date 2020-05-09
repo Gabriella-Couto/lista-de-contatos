@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Keyboard, Platform} from 'react-native';
 import { Cartao } from './Cartao';
 import Medidas from '../Medidas/Medidas';
 import { withNavigation } from 'react-navigation';
-import EditarContato from './EditarContato';
+import BotaoNavegacao from '../components/BotaoNavegacao';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-const ContatoItem = ({navigation, props}) => {
+const ContatoItem = (props) => {
 
     const confirmaExclusao = () => {
         Alert.alert(
@@ -32,19 +33,7 @@ const ContatoItem = ({navigation, props}) => {
     );
 }
 
-EditarContato.navigationOptions = dadosNav => {
-    return {
-    headerTitle: "Editar o contato",
-    headerRight:
-    <HeaderButtons
-    HeaderButtonComponent={BotaoNavegacao}>
-    <Item
-        title="Editar"
-        iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-        onPress={() => { dadosNav.navigation.navigate("Editar") }} />
-    </HeaderButtons>
-    }
-}
+
 
 const styles = StyleSheet.create ({
     item: {
