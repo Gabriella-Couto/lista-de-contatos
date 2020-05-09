@@ -30,7 +30,7 @@ const EditarContato = (props) => {
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
                 <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
-                <Button title="Página inicial" onPress={() => props.handleBack()} color={Cores.gray}/>
+                <Button title="Página inicial" onPress={() => props.voltar()} color={Cores.gray}/>
             </View>
         </View>
     );

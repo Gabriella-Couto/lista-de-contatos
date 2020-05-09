@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Platform Button} from 'react-native';
+import { StyleSheet, Text, View, Platform, Button} from 'react-native';
 import { Cartao } from './Cartao';
 import Medidas from '../Medidas/Medidas';
 import Cores from '../Cores/Cores';
@@ -18,13 +18,13 @@ const ExibirContato = (props) => {
             </View>
             <View >
                 <Cartao style={styles.displayFlex}>
-                    <Text>{props.chave}</Text>
+                    <Text>{props.id}</Text>
                     <Text>{props.nome}</Text>
                     <Text>{props.fone}</Text>
                 </Cartao>
             </View>
             <View style={styles.buttons}> 
-                <Button title="Voltar" onPress={() => navigation.navigation('Home')} color={Cores.gray}></Button>
+                <Button title="Voltar" onPress={() => props.voltar()} color={Cores.gray}></Button>
                 <Button title="Editar contato" onPress={() => props.handleEdit()} color={Cores.primary}/>
             </View>
         </View>

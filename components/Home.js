@@ -4,7 +4,7 @@ import ContatoAdd from './AdicionarContato';
 import ContatoItem from './ContatoItem';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
-import { ExibirContato } from './ExibirContato';
+import ExibirContato from './ExibirContato';
 import EditarContato from  './EditarContato';
 import { withNavigation } from 'react-navigation';
 
@@ -113,10 +113,10 @@ const Home = ({navigation}) => {
         <ContatoAdd salvar={handleSaveClick} voltar={handleBack}/>
       }
       {modoView ==true&&
-          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} handleBack={handleBack} handleEdit={handleEditClick}/>
+          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} voltar={handleBack} handleEdit={handleEditClick}/>
       }
       {modoEdit == true &&
-        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} handleBack={handleBack} handleSaveClick={handleSaveEdit} />
+        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} voltar={handleBack} handleSaveClick={handleSaveEdit} />
       }
     </View>
   );
