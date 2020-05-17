@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {View, TextInput, Button, StyleSheet, Platform } from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
 import BotaoNavegacao from '../components/BotaoNavegacao';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { withNavigation } from 'react-navigation';
+import * as ContatoActions from '../Store/ContatoAction';
+import TiraFoto from './TiraFoto';
 
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
     const [fone, setFone] = useState('');
+    const [id, setId] = useState(10);
+    const dispatch = useDispatch();
+    const [imagemURI, setImagemURI] = useState();
+
+    const fotoTirada = imagemURI => {
+        setImagemURI(imagemURI);
+    }
 
     const mudouNome = (nome) => {
         setNome (nome);
@@ -19,13 +29,16 @@ const AdicionarContato = (props) => {
     }
 
     function limpaEnvia(){
-        props.salvar(nome, fone);
+        dispatch(ContatoActions.criarContato(id, nome, fone, imagemURI));
         setFone('');
         setNome('');
+        setImagemURI(null);
+        setId(id + 1);
     }
 
     return (
         <View> 
+            <TiraFoto onFotoTirada={fotoTirada}/>
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 

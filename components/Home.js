@@ -7,6 +7,7 @@ import Medidas from '../Medidas/Medidas';
 import ExibirContato from './ExibirContato';
 import EditarContato from  './EditarContato';
 import { withNavigation } from 'react-navigation';
+import { useSelector } from 'react-redux';
 
 const Home = ({navigation}) => {
   const [contato, setContato] = useState ([]);
@@ -14,6 +15,7 @@ const Home = ({navigation}) => {
   const [contatoSelecionado, setContatoSelecionado] = useState({});
   const [modoEdit, setModoEdit] = useState(false);
   const [modoView, setModoView] = useState(false);
+  const lista_contatos = useSelector(estado => estado.contatos.contatos);
 
   function handleBack(){
     setModoAdd(false);
@@ -67,7 +69,7 @@ const Home = ({navigation}) => {
   }
  
   const exibir = (key) => {
-    let filteredContato = contato.filter((c) => {return c.id == key });
+    let filteredContato = lista_contatos.filter((c) => {return c.id == key });
     setContatoSelecionado(filteredContato[0]);
     setModoView(true);
     setModoAdd(false);
@@ -84,19 +86,16 @@ const Home = ({navigation}) => {
       {modoAdd == false && modoEdit == false && modoView == false &&
         <View>
           <Text style={styles.title}>Lista de contatos</Text>
-          <View style={styles.displayFlex}>
-            <Text style={styles.tableHeader}>Nome</Text>
-            <Text style={styles.tableHeader}>Telefone</Text>
-          </View>
-          {contato && contato.length > 0? 
+          {lista_contatos && lista_contatos.length > 0? 
             <FlatList
-              data={contato}
+              data={lista_contatos}
               renderItem={
               contato => (
               <ContatoItem
-                chave={contato.item.id}
+                id={contato.item.id}
                 nome={contato.item.nome}
                 fone={contato.item.fone}
+                imagem={contato.item.imagem}
                 onDelete={removerContato}
                 onClick={exibir}
               />
@@ -113,10 +112,10 @@ const Home = ({navigation}) => {
         <ContatoAdd salvar={handleSaveClick} voltar={handleBack}/>
       }
       {modoView ==true&&
-          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} voltar={handleBack} handleEdit={handleEditClick}/>
+          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} handleEdit={handleEditClick}/>
       }
       {modoEdit == true &&
-        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} voltar={handleBack} handleSaveClick={handleSaveEdit} />
+        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} handleSaveClick={handleSaveEdit} />
       }
     </View>
   );

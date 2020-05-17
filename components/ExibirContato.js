@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Platform, Button} from 'react-native';
+import { StyleSheet, Text, View, Platform, Button, Image} from 'react-native';
 import { Cartao } from './Cartao';
 import Medidas from '../Medidas/Medidas';
 import Cores from '../Cores/Cores';
@@ -18,6 +18,7 @@ const ExibirContato = (props) => {
             </View>
             <View >
                 <Cartao style={styles.displayFlex}>
+                    <Image style={styles.imagem} source={{ uri: props.imagem }} />
                     <Text>{props.id}</Text>
                     <Text>{props.nome}</Text>
                     <Text>{props.fone}</Text>
@@ -34,11 +35,19 @@ const ExibirContato = (props) => {
 const styles = StyleSheet.create ({
     item: {
         backgroundColor: Cores.background,
+        display: 'flex',
+        flexDirection: 'row', 
+        justifyContent: 'space-around',
+        marginBottom: Medidas.margin10,
+        marginTop: 10
     },
     cartao: {
-        display: 'flex', 
-        flexDirection: 'row',
-        justifyContent: 'space-around'
+        width: Medidas.width300,
+        maxWidth: Medidas.width100,
+        display: 'flex',
+        flexDirection: 'row', 
+        justifyContent: 'space-around',
+        textAlignVertical: 'center',
     },
     buttons: {
         display: 'flex',
@@ -55,6 +64,14 @@ const styles = StyleSheet.create ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around'
+    },
+    imagem: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: '#ccc',
+        borderColor: Cores.primary,
+        borderWidth: 1
     }
 });
 

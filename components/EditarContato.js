@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import {View, TextInput, Button, StyleSheet, Platform} from 'react-native';
+import { useDispatch } from 'react-redux';
+import {View, TextInput, Button, StyleSheet, Platform, Image} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
 import { withNavigation } from 'react-navigation';
 import BotaoNavegacao from '../components/BotaoNavegacao';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import * as ContatoActions from '../Store/ContatoAction';
+import TiraFoto from './TiraFoto';
 
 const EditarContato = (props) => {
     const [nome, setNome] = useState (props.nome);
     const [fone, setFone] = useState(props.fone);
+    const dispatch = useDispatch();
+    const [imagemURI, setImagemURI] = useState(props.imagem);
+
+    const fotoTirada = imagemURI => {
+        setImagemURI(imagemURI);
+    }
 
     const mudouNome = (nome) => {
         setNome (nome);
@@ -25,7 +34,8 @@ const EditarContato = (props) => {
     }
 
     return (
-        <View> 
+        <View>
+            <Image style={styles.imagem} source={{ uri: props.imagem }} />
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
@@ -48,6 +58,11 @@ const styles = StyleSheet.create({
     },
     input:{
         marginBottom: Medidas.margin15
+    },
+    imagem: {
+        width: 200,
+        height: 200,
+        backgroundColor: '#ccc'
     }
 });
 
