@@ -1,4 +1,4 @@
-import { ADD_CONTATO, LISTA_CONTATOS, EDITAR_CONTATO } from './ContatoAction';
+import { ADD_CONTATO, LISTA_CONTATOS, EDITAR_CONTATO, DELETAR_CONTATO } from './ContatoAction';
 import Contato from '../Modelos/Contato';
 
 const estadoInicial = {
@@ -24,6 +24,11 @@ export default (estado = estadoInicial, action) => {
             return {
                 contatos: estado.contatos.concat(novoContato)
             };
+        case DELETAR_CONTATO:
+            let newArray = estado.contatos.filter((c) => {return c.id != action.contato.id.toString() });
+            return { 
+                contatos: estado.contatos = newArray 
+            }
         default:
             return estado;
     }

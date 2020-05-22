@@ -57,3 +57,17 @@ export const init = () => {
     });
     return promise;
 }
+
+export const excluirContato = (id) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql('DELETE FROM contato WHERE ID = ?',
+                [id],
+                () => { resolve() },
+                (_, err) => { reject(err) }
+            )
+                ;
+        });
+    });
+    return promise;
+}

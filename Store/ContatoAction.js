@@ -1,9 +1,10 @@
 import * as FileSystem from 'expo-file-system'
-import { inserirContato, buscarContato, editarContato } from '../helpers/Database';
+import { inserirContato, buscarContato, editarContato, excluirContato } from '../helpers/Database';
 
 export const ADD_CONTATO = 'ADD_CONTATO';
 export const LISTA_CONTATOS = 'LISTA_CONTATOS';
 export const EDITAR_CONTATO = "EDITAR_CONTATO";
+export const DELETAR_CONTATO = 'DELETAR_CONTATO';
 
 export const listarContatos = () => {
     return async dispatch => {
@@ -36,6 +37,19 @@ export const atualizarContato = (id, nome, fone, imagem) => {
             )
 
             dispatch({ type: EDITAR_CONTATO, contato: { id: id, nome: nome, fone: fone, imagem: novoPath } })
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+}
+
+export const deletarContato = (id) => {
+    return async dispatch => {
+        try {
+            const resultadoDB = await excluirContato(id);
+            dispatch({ type: DELETAR_CONTATO, contato: {id: id} })
         }
         catch (err) {
             console.log(err);
