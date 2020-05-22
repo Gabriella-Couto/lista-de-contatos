@@ -11,7 +11,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as ContatosAction from '../Store/ContatoAction';
 
 const Home = ({navigation}) => {
-  const [contato, setContato] = useState ([]);
   const [modoAdd, setModoAdd] = useState(false);
   const [contatoSelecionado, setContatoSelecionado] = useState({});
   const [modoEdit, setModoEdit] = useState(false);
@@ -29,49 +28,9 @@ const Home = ({navigation}) => {
     setModoView(false);
   }
 
-  const handleSaveClick = (nome, fone) => {
-    let id = calculateIndex();
-    //Add the current contact in the end of the array
-    setContato(contato => {
-      return [...contato, {id: id, nome: nome, fone: fone}];
-    })
-  }
-
-  const handleSaveEdit = (nome, fone) => {
-    let index = findContatoIndex();
-
-    removerContato(contatoSelecionado.id);
-
-    if(index >= 0){
-      setContato(contato => {
-        return [...contato, {id: contatoSelecionado.id, nome: nome, fone: fone}];
-      })
-    }
-    setModoEdit(false);
-  }
 
   function handleAddClick(){
     setModoAdd(true);
-  }
-
-  function findContatoIndex(){
-    return contato.indexOf(contatoSelecionado)
-  }
-
-  function calculateIndex(){
-    if(contato.length == 0 ){
-      return 10;
-    } else{
-      let ultimoContato = contato[contato.length - 1];
-      return ultimoContato.id + 2;
-    }
-  }
-
-  const removerContato = (key) => {
-    //Returns all array elements that are not the one i want to delete 
-    //And then changes the value of the array
-    let filteredContato = contato.filter((c) => {return c.id != key });
-    setContato(filteredContato);
   }
  
   const exibir = (key) => {
@@ -115,13 +74,13 @@ const Home = ({navigation}) => {
       </View>
       }
       {modoAdd == true &&
-        <ContatoAdd salvar={handleSaveClick} voltar={handleBack}/>
+        <ContatoAdd voltar={handleBack}/>
       }
       {modoView ==true&&
           <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} handleEdit={handleEditClick}/>
       }
       {modoEdit == true &&
-        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} handleSaveClick={handleSaveEdit} />
+        <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} />
       }
     </View>
   );
