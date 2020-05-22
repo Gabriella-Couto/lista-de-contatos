@@ -12,5 +12,7 @@ export default {
    elevation: 4,
    padding12: 12,
    borderRadius: 8,
-   flex1: 1
+   flex1: 1,
+   image230: 230,
+   radius150: 150
 }

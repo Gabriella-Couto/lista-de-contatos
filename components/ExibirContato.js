@@ -11,14 +11,14 @@ const ExibirContato = (props) => {
    
     return(
         <View>
+            <Image style={styles.imagem} source={{ uri: props.imagem }} />
             <View style={styles.displayFlex}>
                 <Text style={styles.tableHeader}>Id</Text>
                 <Text style={styles.tableHeader}>Nome</Text>
                 <Text style={styles.tableHeader}>Telefone</Text>
             </View>
             <View >
-                <Cartao style={styles.displayFlex}>
-                    <Image style={styles.imagem} source={{ uri: props.imagem }} />
+                <Cartao style={styles.displayFlex} estilos={styles.displayFlex}>
                     <Text>{props.id}</Text>
                     <Text>{props.nome}</Text>
                     <Text>{props.fone}</Text>
@@ -33,17 +33,9 @@ const ExibirContato = (props) => {
 }
 
 const styles = StyleSheet.create ({
-    item: {
-        backgroundColor: Cores.background,
-        display: 'flex',
-        flexDirection: 'row', 
-        justifyContent: 'space-around',
-        marginBottom: Medidas.margin10,
-        marginTop: 10
-    },
     cartao: {
         width: Medidas.width300,
-        maxWidth: Medidas.width100,
+        maxWidth: Medidas.width300,
         display: 'flex',
         flexDirection: 'row', 
         justifyContent: 'space-around',
@@ -61,17 +53,25 @@ const styles = StyleSheet.create ({
         color: Cores.primary
     },
     displayFlex: {
+        width: Medidas.width300,
+        maxWidth: Medidas.width100,
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
+        flexDirection: 'row', 
+        justifyContent: 'space-around',
+        textAlignVertical: 'center'
     },
     imagem: {
-        width: 70,
-        height: 70,
-        borderRadius: 35,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: Medidas.image230,
+        height: Medidas.image230,
+        borderRadius: Medidas.radius150,
         backgroundColor: '#ccc',
         borderColor: Cores.primary,
-        borderWidth: 1
+        borderWidth: 1,
+        marginBottom: Medidas.margin15,
+        alignSelf: 'center'
     }
 });
 

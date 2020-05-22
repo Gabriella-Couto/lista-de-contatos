@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, FlatList, Alert } from 'react-native';
 import ContatoAdd from './AdicionarContato';
 import ContatoItem from './ContatoItem';
@@ -7,7 +7,8 @@ import Medidas from '../Medidas/Medidas';
 import ExibirContato from './ExibirContato';
 import EditarContato from  './EditarContato';
 import { withNavigation } from 'react-navigation';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as ContatosAction from '../Store/ContatoAction';
 
 const Home = ({navigation}) => {
   const [contato, setContato] = useState ([]);
@@ -16,6 +17,11 @@ const Home = ({navigation}) => {
   const [modoEdit, setModoEdit] = useState(false);
   const [modoView, setModoView] = useState(false);
   const lista_contatos = useSelector(estado => estado.contatos.contatos);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(ContatosAction.listarContatos())
+  }, [dispatch]);
 
   function handleBack(){
     setModoAdd(false);
