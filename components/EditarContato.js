@@ -27,19 +27,18 @@ const EditarContato = (props) => {
         setFone(fone);
     }
 
-    function limpaEnvia(){
-        props.handleSaveClick(nome, fone);
-        setFone('');
-        setNome('');
+    function salvar(){
+        dispatch(ContatoActions.atualizarContato(props.id, nome, fone, imagemURI));
+        props.voltar();
     }
 
     return (
         <View>
             <Image style={styles.imagem} source={{ uri: props.imagem }} />
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
-            <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
+            <TextInput placeholder="Telefone" value={fone.toString()} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
-                <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
+                <Button title="Salvar" onPress={salvar} color={Cores.primary}/>
                 <Button title="Página inicial" onPress={() => props.voltar()} color={Cores.gray}/>
             </View>
         </View>
@@ -51,7 +50,8 @@ const styles = StyleSheet.create({
     buttons: {
         display: 'flex',
         flexDirection: 'row', 
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginTop: Medidas.margin10
     },
     component: {
        backgroundColor: Cores.background 
@@ -60,9 +60,17 @@ const styles = StyleSheet.create({
         marginBottom: Medidas.margin15
     },
     imagem: {
-        width: 200,
-        height: 200,
-        backgroundColor: '#ccc'
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: Medidas.image230,
+        height: Medidas.image230,
+        borderRadius: Medidas.radius150,
+        backgroundColor: '#ccc',
+        borderColor: Cores.primary,
+        borderWidth: 1,
+        marginBottom: Medidas.margin15,
+        alignSelf: 'center'
     }
 });
 

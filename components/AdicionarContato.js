@@ -12,7 +12,6 @@ import TiraFoto from './TiraFoto';
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
     const [fone, setFone] = useState('');
-    const [id, setId] = useState(10);
     const dispatch = useDispatch();
     const [imagemURI, setImagemURI] = useState();
 
@@ -28,12 +27,9 @@ const AdicionarContato = (props) => {
         setFone(fone);
     }
 
-    function limpaEnvia(){
-        dispatch(ContatoActions.criarContato(id, nome, fone, imagemURI));
-        setFone('');
-        setNome('');
-        setImagemURI(null);
-        setId(id + 1);
+    function salvar(){
+        dispatch(ContatoActions.criarContato(nome, fone, imagemURI));
+        props.voltar();
     }
 
     return (
@@ -42,7 +38,7 @@ const AdicionarContato = (props) => {
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
             <View style={styles.buttons}> 
-                <Button title="Salvar" onPress={limpaEnvia} color={Cores.primary}/>
+                <Button title="Salvar" onPress={salvar} color={Cores.primary}/>
                 <Button title="Voltar" onPress={() => props.voltar()} color={Cores.gray}/>
             </View>
         </View>
