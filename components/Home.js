@@ -61,7 +61,6 @@ const Home = ({navigation}) => {
                 nome={contato.item.nome}
                 fone={contato.item.fone}
                 imagem={contato.item.imagem}
-                onDelete={removerContato}
                 onClick={exibir}
               />
               )}

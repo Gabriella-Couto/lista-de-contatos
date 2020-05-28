@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {View, TextInput, Button, StyleSheet, Platform } from 'react-native';
+import {View, TextInput, Button, StyleSheet, Platform, ScrollView} from 'react-native';
 import Cores from '../Cores/Cores';
 import Medidas from '../Medidas/Medidas';
 import BotaoNavegacao from '../components/BotaoNavegacao';
@@ -8,6 +8,8 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { withNavigation } from 'react-navigation';
 import * as ContatoActions from '../Store/ContatoAction';
 import TiraFoto from './TiraFoto';
+import CapturaLocalizacao from './CapturaLocalizacao';
+import { AsyncStorage } from 'react-native';
 
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
@@ -28,20 +30,25 @@ const AdicionarContato = (props) => {
     }
 
     function salvar(){
+        var date = new Date();
+        //console.log("date", date);
+        
         dispatch(ContatoActions.criarContato(nome, fone, imagemURI));
         props.voltar();
     }
 
+
     return (
-        <View> 
+        <ScrollView> 
             <TiraFoto onFotoTirada={fotoTirada}/>
             <TextInput placeholder="Nome" value={nome} onChangeText={mudouNome}/>
             <TextInput style={styles.input} placeholder="Telefone" value={fone} onChangeText={mudouFone} keyboardType={'numeric'}/>
+            <CapturaLocalizacao/>
             <View style={styles.buttons}> 
                 <Button title="Salvar" onPress={salvar} color={Cores.primary}/>
                 <Button title="Voltar" onPress={() => props.voltar()} color={Cores.gray}/>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
