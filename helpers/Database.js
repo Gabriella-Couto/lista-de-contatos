@@ -16,11 +16,11 @@ export const buscarContato = () => {
     return promise;
 }
 
-export const editarContato = (id, nome, fone, imagem) => {
+export const editarContato = (id, nome, fone, imagem, data, lat, long) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
-            tx.executeSql(`UPDATE contato SET NOME = ?, FONE = ?, IMAGEM = ? WHERE ID = ?`,
-                [nome, fone, imagem, id],
+            tx.executeSql(`UPDATE contato SET NOME = ?, FONE = ?, IMAGEM = ? DATA = ?, LAT = ?, LONG = ? WHERE ID = ?`,
+                [nome, fone, imagem, data.toString(), lat, long, id],
                 (_, resultado) => { resolve(resultado) },
                 (_, err) => { reject(err) }
             )
@@ -30,11 +30,11 @@ export const editarContato = (id, nome, fone, imagem) => {
     return promise;
 }
 
-export const inserirContato = (nome, fone, imagemUri) => {
+export const inserirContato = (nome, fone, imagemUri, data, lat, long) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
-            tx.executeSql('INSERT INTO contato (nome, fone, imagem) VALUES (?,?,?);',
-                [nome, fone, imagemUri],
+            tx.executeSql('INSERT INTO contato (nome, fone, imagem, data, lat, long) VALUES (?,?,?,?,?,?);',
+                [nome, fone, imagemUri, data, lat, long],
                 (_, resultado) => { resolve(resultado) },
                 (_, err) => { reject(err) }
             )
@@ -47,7 +47,7 @@ export const inserirContato = (nome, fone, imagemUri) => {
 export const init = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
-            tx.executeSql('CREATE TABLE contato (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, fone INTEGER NOT NULL, imagem TEXT NOT NULL);',
+            tx.executeSql('CREATE TABLE contato (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, fone INTEGER NOT NULL, imagem TEXT NOT NULL, data TEXT NOT NULL, lat TEXT NOT NULL, long TEXT NOT NULL);',
                 [],
                 () => { resolve() },
                 (_, err) => { reject(err) }

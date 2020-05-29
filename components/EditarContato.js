@@ -28,7 +28,9 @@ const EditarContato = (props) => {
     }
 
     function salvar(){
-        dispatch(ContatoActions.atualizarContato(props.id, nome, fone, imagemURI));
+        var date = new Date();
+
+        dispatch(ContatoActions.atualizarContato(props.id, nome, fone, imagemURI, date, '48,8566', '2,3522'));
         props.voltar();
     }
 

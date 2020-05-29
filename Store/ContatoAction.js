@@ -19,7 +19,7 @@ export const listarContatos = () => {
     }
 }
 
-export const atualizarContato = (id, nome, fone, imagem) => {
+export const atualizarContato = (id, nome, fone, imagem, data, latitude, longitude) => {
     return async dispatch => {
         const nomeArquivo = imagem.split("/").pop();
         const novoPath = FileSystem.documentDirectory + nomeArquivo;
@@ -33,10 +33,16 @@ export const atualizarContato = (id, nome, fone, imagem) => {
                 id,
                 nome,
                 fone,
-                novoPath
+                novoPath,
+                data,
+                latitude,
+                longitude
             )
 
-            dispatch({ type: EDITAR_CONTATO, contato: { id: id, nome: nome, fone: fone, imagem: novoPath } })
+            dispatch({ 
+                type: EDITAR_CONTATO, 
+                contato: { id: id, nome: nome, fone: fone, imagem: novoPath, data: data, lat: latitude, long: longitude } 
+            })
         }
         catch (err) {
             console.log(err);
@@ -58,7 +64,7 @@ export const deletarContato = (id) => {
     }
 }
 
-export const criarContato  = (nome, fone, imagem) => {
+export const criarContato  = (nome, fone, imagem, data, latitude, longitude) => {
     return async dispatch => {
         const nomeArquivo = imagem.split("/").pop();
         const novoPath = FileSystem.documentDirectory + nomeArquivo;
@@ -71,10 +77,13 @@ export const criarContato  = (nome, fone, imagem) => {
             const resultadoDB = await inserirContato(
                 nome,
                 fone,
-                novoPath
+                novoPath,
+                data
             )
 
-            dispatch({ type: ADD_CONTATO, contato: { id: resultadoDB.insertId, nome: nome, fone: fone, imagem: novoPath } })
+            dispatch({ 
+                type: ADD_CONTATO, 
+                contato: { id: resultadoDB.insertId, nome: nome, fone: fone, imagem: novoPath, data: data, lat: latitude, long: longitude } })
         }
         catch (err) {
             console.log(err);

@@ -8,7 +8,7 @@ const estadoInicial = {
 export default (estado = estadoInicial, action) => {
     switch (action.type) {
         case ADD_CONTATO:
-            const contato = new Contato(action.contato.id.toString(), action.contato.nome, action.contato.fone, action.contato.imagem);
+            const contato = new Contato(action.contato.id.toString(), action.contato.nome, action.contato.fone, action.contato.imagem, action.contato.data.toString(), action.contato.lat, action.contato.long);
             return {
                 contatos: estado.contatos.concat(contato)
             };
@@ -20,7 +20,7 @@ export default (estado = estadoInicial, action) => {
             let removedArray = estado.contatos.filter((c) => {return c.id != action.contato.id.toString() });
             estado.contatos = removedArray;
             
-            const novoContato = new Contato(action.contato.id.toString(), action.contato.nome, action.contato.fone, action.contato.imagem);
+            const novoContato = new Contato(action.contato.id.toString(), action.contato.nome, action.contato.fone, action.contato.imagem, action.contato.data.toString(), action.contato.lat, action.contato.long);
             return {
                 contatos: estado.contatos.concat(novoContato)
             };

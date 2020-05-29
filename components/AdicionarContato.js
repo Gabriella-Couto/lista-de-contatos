@@ -31,9 +31,9 @@ const AdicionarContato = (props) => {
 
     function salvar(){
         var date = new Date();
-        //console.log("date", date);
+        console.log("date", date);
         
-        dispatch(ContatoActions.criarContato(nome, fone, imagemURI));
+        dispatch(ContatoActions.criarContato(nome, fone, imagemURI, date, "48.8566", "2.3522"));
         props.voltar();
     }
 
