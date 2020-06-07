@@ -9,13 +9,11 @@ import { withNavigation } from 'react-navigation';
 import * as ContatoActions from '../Store/ContatoAction';
 import TiraFoto from './TiraFoto';
 import CapturaLocalizacao from './CapturaLocalizacao';
-import 'firebase/firestore';
-const db = firebase.firestore();
 
 const AdicionarContato = (props) => {
     const [nome, setNome] = useState ('');
     const [fone, setFone] = useState('');
-   // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [imagemURI, setImagemURI] = useState();
 
     const fotoTirada = imagemURI => {
@@ -32,16 +30,7 @@ const AdicionarContato = (props) => {
 
     function salvar(){
         var date = new Date();
-        
-        db.collection('contatos').add({
-            nome: nome,
-            fone: fone,
-            imagemURI: imagemURI,
-            data: date,
-            latitude: "48.8566",
-            longitude: "2.3522"
-        })
-        
+        dispatch(ContatoActions.criarContato(nome, fone, imagemURI, date, "48.8566", "2.3522"));
         props.voltar();
     }
 

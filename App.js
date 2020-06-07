@@ -5,14 +5,6 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import ContatoReducer from './Store/ContatoReducer';
 import { init } from './helpers/Database';  
-import ENV from './env';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-
-if (!firebase.apps.length)
-firebase.initializeApp(ENV);
-
-const db = firebase.firestore();
 
 init().
   then(() => {

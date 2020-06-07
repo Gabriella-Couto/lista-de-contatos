@@ -10,11 +10,6 @@ import { withNavigation } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import * as ContatosAction from '../Store/ContatoAction';
 
-import * as firebase from 'firebase';
-import 'firebase/firestore'
-
-const db = firebase.firestore();
-
 const Home = ({navigation}) => {
   const [modoAdd, setModoAdd] = useState(false);
   const [contatoSelecionado, setContatoSelecionado] = useState({});
@@ -22,26 +17,10 @@ const Home = ({navigation}) => {
   const [modoView, setModoView] = useState(false);
   const lista_contatos = useSelector(estado => estado.contatos.contatos);
   const dispatch = useDispatch();
-  const [listaContatos, setListaContatos] = useSelector([]);
-
-
+  
   useEffect(() => {
-    db.collection('contatos').onSnapshot((snapshot) => {
-      let aux = [];
-      snapshot.forEach(doc => {
-        aux.push({
-          nome: doc.data().nome,
-          fone: doc.data().fone,
-          imagemUri: doc.data().imagemUri,
-          lat: doc.data().latitude,
-          long: doc.data().longitude,
-          id: doc.id,
-          data: doc.data().data
-        })
-      })
-      setListaContatos(aux);
-    })
-  }, []);
+    dispatch(ContatosAction.listarContatos())
+  }, [dispatch]);
 
   function handleBack(){
     setModoAdd(false);
@@ -55,7 +34,7 @@ const Home = ({navigation}) => {
   }
  
   const exibir = (key) => {
-    let filteredContato = listaContatos.filter((c) => {return c.id == key });
+    let filteredContato = lista_contatos.filter((c) => {return c.id == key });
     setContatoSelecionado(filteredContato[0]);
     setModoView(true);
     setModoAdd(false);
@@ -72,9 +51,9 @@ const Home = ({navigation}) => {
       {modoAdd == false && modoEdit == false && modoView == false &&
         <View>
           <Text style={styles.title}>Lista de contatos</Text>
-          {listaContatos && listaContatos.length > 0? 
+          {lista_contatos && lista_contatos.length > 0? 
             <FlatList
-              data={listaContatos}
+              data={lista_contatos}
               renderItem={
               contato => (
               <ContatoItem

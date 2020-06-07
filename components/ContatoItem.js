@@ -6,8 +6,6 @@ import Medidas from '../Medidas/Medidas';
 import { withNavigation } from 'react-navigation';
 import Cores from '../Cores/Cores';
 import * as ContatoActions from '../Store/ContatoAction';
-import 'firebase/firestore'
-const db = firebase.firestore()
 
 const ContatoItem = (props) => {
     const dispatch = useDispatch();
@@ -18,7 +16,7 @@ const ContatoItem = (props) => {
             'Tem certeza que deseja excluir esse item?', //mensagem
             //coleção de botões, cada botão é um JSON
             [
-                {text: 'Deletar', style: 'default', onPress: () => db.collection("contatos").doc(props.id).delete()},
+                {text: 'Deletar', style: 'default', onPress: () => deletar(props.id)},
                 {text: 'Cancelar', style: 'default', onPress:  Keyboard.dismiss()},
             ]
         );
