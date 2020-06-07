@@ -22,6 +22,9 @@ const ExibirContato = (props) => {
                     <Text>{props.id}</Text>
                     <Text>{props.nome}</Text>
                     <Text>{props.fone}</Text>
+                    <Text>{props.lat}</Text>
+                    <Text>{props.long}</Text>
+                    <Text>{props.data}</Text>
                 </Cartao>
             </View>
             <View style={styles.buttons}> 

@@ -10,6 +10,11 @@ import { withNavigation } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import * as ContatosAction from '../Store/ContatoAction';
 
+import * as firebase from 'firebase';
+import 'firebase/firestore'
+
+const db = firebase.firestore();
+
 const Home = ({navigation}) => {
   const [modoAdd, setModoAdd] = useState(false);
   const [contatoSelecionado, setContatoSelecionado] = useState({});
@@ -17,10 +22,26 @@ const Home = ({navigation}) => {
   const [modoView, setModoView] = useState(false);
   const lista_contatos = useSelector(estado => estado.contatos.contatos);
   const dispatch = useDispatch();
+  const [listaContatos, setListaContatos] = useSelector([]);
+
 
   useEffect(() => {
-    dispatch(ContatosAction.listarContatos())
-  }, [dispatch]);
+    db.collection('contatos').onSnapshot((snapshot) => {
+      let aux = [];
+      snapshot.forEach(doc => {
+        aux.push({
+          nome: doc.data().nome,
+          fone: doc.data().fone,
+          imagemUri: doc.data().imagemUri,
+          lat: doc.data().latitude,
+          long: doc.data().longitude,
+          id: doc.id,
+          data: doc.data().data
+        })
+      })
+      setListaContatos(aux);
+    })
+  }, []);
 
   function handleBack(){
     setModoAdd(false);
@@ -34,7 +55,7 @@ const Home = ({navigation}) => {
   }
  
   const exibir = (key) => {
-    let filteredContato = lista_contatos.filter((c) => {return c.id == key });
+    let filteredContato = listaContatos.filter((c) => {return c.id == key });
     setContatoSelecionado(filteredContato[0]);
     setModoView(true);
     setModoAdd(false);
@@ -51,16 +72,18 @@ const Home = ({navigation}) => {
       {modoAdd == false && modoEdit == false && modoView == false &&
         <View>
           <Text style={styles.title}>Lista de contatos</Text>
-          {lista_contatos && lista_contatos.length > 0? 
+          {listaContatos && listaContatos.length > 0? 
             <FlatList
-              data={lista_contatos}
+              data={listaContatos}
               renderItem={
               contato => (
               <ContatoItem
                 id={contato.item.id}
                 nome={contato.item.nome}
                 fone={contato.item.fone}
-                imagem={contato.item.imagem}
+                imagem={contato.item.imagemUri}
+                lat={contato.item.lat}
+                long={contato.item.long}
                 onClick={exibir}
               />
               )}
@@ -76,7 +99,7 @@ const Home = ({navigation}) => {
         <ContatoAdd voltar={handleBack}/>
       }
       {modoView ==true&&
-          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} handleEdit={handleEditClick}/>
+          <ExibirContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} lat={contatoSelecionado.lat} long={contatoSelecionado.long} data={contatoSelecionado.data} voltar={handleBack} handleEdit={handleEditClick}/>
       }
       {modoEdit == true &&
         <EditarContato id={contatoSelecionado.id} nome={contatoSelecionado.nome} fone={contatoSelecionado.fone} imagem={contatoSelecionado.imagem} voltar={handleBack} />
